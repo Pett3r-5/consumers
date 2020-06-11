@@ -1,4 +1,4 @@
-package com.consumer.queueConsumer;
+package com.consumer.queueConsumer.configuration;
 
 
 const val STARTING_QUEUE:String = "STARTING_QUEUE";
