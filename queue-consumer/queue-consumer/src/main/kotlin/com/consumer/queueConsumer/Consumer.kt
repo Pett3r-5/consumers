@@ -1,17 +1,21 @@
 package com.consumer.queueConsumer
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Component
 
+
 @Component
-class Consumer {
+class Consumer (private var rabbitTemplate:RabbitTemplate){
 
-    constructor(){
-        init();
-        init("oioi");
-    }
+    fun init(some:String="default") = println("aa: $some")
 
-    fun init(some:String="default"):String {
-        System.out.println("aa: $some")
-        return "";
+    @RabbitListener(queues = [STARTING_QUEUE])
+    fun consume(messageDTO:MessageDTO) {
+        //TODO: Try out asynchronous syntax
+        if(messageDTO.getType() == "FORWARDABLE") {
+            rabbitTemplate.convertAndSend(API_QUEUE)
+        }
+
     }
 }
